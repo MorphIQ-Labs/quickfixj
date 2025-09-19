@@ -20,6 +20,13 @@
 			<artifactId>quickfixj-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- Ensure FIxT11 module is built before we copy its generated sources -->
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-fixt11</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
@@ -62,6 +69,30 @@
 									</transformationSet>
 								</transformationSets>
 							</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<groupId>org.apache.maven.plugins</groupId>
+						<executions>
+							<execution>
+								<id>copy-fixt11-sources</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/../quickfixj-messages-fixt11/target/generated-sources</directory>
+											<includes>
+												<include>**/*.java</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -222,25 +253,7 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>unpack-fixt11-sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.quickfixj</groupId>
-									<artifactId>quickfixj-messages-fixt11</artifactId>
-									<classifier>sources</classifier>
-									<version>${project.version}</version>
-									<includes>**/*.java</includes>
-									<outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
+					<!-- removed reliance on resolving FIxT11 sources via repository to avoid CI race; copy from sibling module -->
 				</executions>
 			</plugin>
 			<plugin>
