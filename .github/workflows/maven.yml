@@ -8,49 +8,12 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-13]
-        java: [21]
-      fail-fast: false
-      max-parallel: 4
-    name: Test JDK ${{ matrix.java }}, ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    container:
+      image: openjdk:25
+    name: Test JDK 25, ubuntu-latest (container)
 
     steps:
       - uses: actions/checkout@v5
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
       - name: Test with Maven
         run: ./mvnw install -B -V -D"maven.javadoc.skip"="true" -P"skipBundlePlugin,minimal-fix-latest" -D"java.util.logging.config.file"="${{github.workspace}}/quickfixj-core/src/test/resources/logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
-
-  test-windows:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
-        java: [21]
-      fail-fast: false
-      max-parallel: 3
-    name: Test JDK ${{ matrix.java }}, ${{ matrix.os }}
-
-    steps:
-      - uses: actions/checkout@v5
-      - name: Configure pagefile
-        uses: al-cheb/configure-pagefile-action@v1.4
-        with:
-          minimum-size: 8GB
-          maximum-size: 16GB
-          disk-root: "C:"
-      - name: Set up Windows JDK
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
-      - name: Test with Maven on Windows
-        run: ./mvnw.cmd install -B -V  -D"maven.javadoc.skip"="true" -P"skipBundlePlugin,minimal-fix-latest" -D"java.util.logging.config.file"="${{github.workspace}}/quickfixj-core/src/test/resources/logging.properties"  -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"

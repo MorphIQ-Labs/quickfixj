@@ -19,6 +19,9 @@
 
 	<properties>
 		<mainClass>org.quickfixj.codegenerator.MessageCodeGenerator</mainClass>
+		<!-- Build the Maven plugin with a stable bytecode level (Java 21)
+		     to keep maven-plugin-plugin descriptor generation compatible on JDK 25. -->
+		<maven.compiler.release>21</maven.compiler.release>
 	</properties>
 
 	<dependencies>

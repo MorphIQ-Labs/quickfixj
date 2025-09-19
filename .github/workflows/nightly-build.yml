@@ -12,14 +12,10 @@ jobs:
   release-snapshot:
     if: github.repository == 'quickfix-j/quickfixj'
     runs-on: ubuntu-latest
+    container:
+      image: openjdk:25
     steps:
       - uses: actions/checkout@v5
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 21
-          cache: maven
 
       - name: Build SNAPSHOT
         run: ./mvnw clean package -B -V -D"maven.javadoc.skip"="true" -D"java.util.logging.config.file"="${{github.workspace}}/quickfixj-core/src/test/resources/logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"

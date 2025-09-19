@@ -54,76 +54,71 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-sources</id>
+						<id>unpack-messages-all-sources</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/generated-sources/quickfix</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/../quickfixj-messages-all/target/generated-sources/quickfix</directory>
-									<includes>
-										<include>**/fixlatest/**/*.java</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>${project.basedir}/../quickfixj-messages-all/target/generated-sources/quickfix</directory>
-									<includes>
-										<include>**/field/*.java</include>
-									</includes>
-								</resource>
-							</resources>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.quickfixj</groupId>
+									<artifactId>quickfixj-messages-all</artifactId>
+									<version>${project.version}</version>
+									<classifier>sources</classifier>
+									<includes>**/fixlatest/**/*.java,**/field/*.java</includes>
+                                    <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+								</artifactItem>
+							</artifactItems>
 						</configuration>
 					</execution>
 					<execution>
-						<id>copy-classes</id>
-						<phase>generate-sources</phase>
+						<id>unpack-messages-all-classes</id>
+						<phase>process-classes</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/classes/quickfix</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/../quickfixj-messages-all/target/classes/quickfix</directory>
-									<includes>
-										<include>**/fixlatest/**/*.class</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>${project.basedir}/../quickfixj-messages-all/target/classes/quickfix</directory>
-									<includes>
-										<include>**/field/*.class</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-fixlatest-xml</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/../quickfixj-messages-all/target/classes</directory>
-									<includes>
-										<include>FIXLatest.xml</include>
-									</includes>
-								</resource>
-							</resources>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.quickfixj</groupId>
+									<artifactId>quickfixj-messages-all</artifactId>
+									<version>${project.version}</version>
+									<includes>quickfix/**/fixlatest/**/*.class,quickfix/**/field/*.class</includes>
+									<outputDirectory>${project.build.directory}/classes</outputDirectory>
+								</artifactItem>
+							</artifactItems>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>copy-fixlatest-xml</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/classes</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${project.basedir}/../quickfixj-messages-all/target/classes</directory>
+										<includes>
+											<include>FIXLatest.xml</include>
+										</includes>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			<plugin>
 				<!-- prune classes that are not in the FIX Dictionaries specified below -->
 				<groupId>org.quickfixj</groupId>
