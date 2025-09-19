@@ -207,7 +207,7 @@
 						  <!-- Uncomment this to skip execution as this module requires more than 9gb memory -->
 						  <!-- <skip>true</skip>-->
 						  <quiet>true</quiet>
-						  <source>21</source>
+							  <source>25</source>
 						  <sourcepath>src/main/java:${project.build.directory}/generated-sources</sourcepath>
 					  </configuration>
 				  </execution>
