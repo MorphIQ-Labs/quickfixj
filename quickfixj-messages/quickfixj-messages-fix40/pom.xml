@@ -20,6 +20,13 @@
 			<artifactId>quickfixj-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- Ensure generated sources from messages-all are ready in parallel builds -->
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-all</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
