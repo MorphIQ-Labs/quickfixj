@@ -20,6 +20,20 @@
 			<artifactId>quickfixj-base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- Ensure generated sources from messages-all are ready in parallel builds -->
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-all</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Serialize pruning across FIX4x to avoid concurrent writes to messages-all -->
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-fix40</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
