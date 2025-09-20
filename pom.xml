@@ -55,7 +55,6 @@
 		<module>quickfixj-examples</module>
 		<module>quickfixj-all</module>
 		<module>quickfixj-distribution</module>
-		<module>quickfixj-perf-test</module>
 	</modules>
 
 	<properties>
@@ -578,6 +577,10 @@
         <skipTests>true</skipTests>
         <skipAT>true</skipAT>
       </properties>
+      <modules>
+        <!-- Include perf tests only when this profile is explicitly enabled -->
+        <module>quickfixj-perf-test</module>
+      </modules>
       <build>
         <plugins>
           <!-- Disable bundle plugin work for faster perf builds -->
