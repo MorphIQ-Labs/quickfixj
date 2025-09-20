@@ -122,11 +122,7 @@
 			<artifactId>quickfixj-messages-fix40</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    <dependency>
-			<groupId>org.quickfixj</groupId>
-			<artifactId>quickfixj-perf-test</artifactId>
-			<version>${project.version}</version>
-    </dependency>
+    <!-- Note: perf test module is excluded from default builds and not shipped in distribution -->
 		<dependency>
 			<groupId>com.sleepycat</groupId>
 			<artifactId>je</artifactId>

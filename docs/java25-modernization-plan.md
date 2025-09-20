@@ -129,9 +129,9 @@
 ## Work Plan & Timeline
 
 ### Phase 0: Infra & Tests (1–2 weeks)
-- Stabilize SSL tests for JDK 25 (TLS 1.3 suites, endpoint ID, keystores)
-- Expand JMH coverage (parser, validation, cracker, logging/I/O)
-- Add nightly perf job (optional)
+- Stabilize SSL tests for JDK 25 (TLS 1.3 suites, endpoint ID, keystores) — DONE
+- Expand JMH coverage (parser, validation, cracker, logging/I/O) — DONE
+- Add nightly perf job (optional) — DONE
 
 ### Phase 1: Quick Wins (2–3 weeks)
 - DataDictionary fast‑cache tables
@@ -162,8 +162,8 @@
 
 ## Task Tracker (Initial)
 
-- [ ] Phase 0 – SSL test updates for JDK 25 (TLS 1.3 suites, endpoint ID)
-- [ ] Phase 0 – Add JMH: validation on/off, repeating groups, rawData; logging/I/O
+- [x] Phase 0 – SSL test updates for JDK 25 (TLS 1.3 suites, endpoint ID)
+- [x] Phase 0 – Add JMH: validation on/off, repeating groups, rawData; logging/I/O
 - [ ] Phase 1 – DataDictionary hot caches (tag→type, validators, bitsets)
 - [ ] Phase 1 – Parser context & numeric fast paths; avoid Strings on hot path
 - [ ] Phase 1 – Logging guards; optional batched writer
