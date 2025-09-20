@@ -17,8 +17,10 @@ import quickfix.ValidationSettings;
 public class ParserRepeatingGroupPerfTest extends AbstractPerfTest {
 
     @Param({
-            // Minimal MarketDataSnapshotFullRefresh with 3 MDEntries
-            "8=FIX.4.4\u00019=200\u000135=W\u000149=SENDER\u000156=TARGET\u000134=1\u000152=20200101-00:00:00\u000155=SYMB\u0001268=3\u0001279=0\u0001270=12.34\u000110=000\u0001279=0\u0001270=12.35\u000110=000\u0001279=0\u0001270=12.36\u000110=000\u0001"
+            // Minimal MarketDataSnapshotFullRefresh (35=W) with 3 MDEntries
+            // Use correct group delimiter 269 (MDEntryType) and a single trailing CheckSum (10)
+            // Note: BodyLength (9) and CheckSum (10) are placeholders; validation is disabled in this benchmark
+            "8=FIX.4.4\u00019=200\u000135=W\u000149=SENDER\u000156=TARGET\u000134=1\u000152=20200101-00:00:00\u000155=SYMB\u0001268=3\u0001269=0\u0001270=12.34\u0001269=0\u0001270=12.35\u0001269=0\u0001270=12.36\u000110=000\u0001"
     })
     public String snapshot;
 
@@ -38,4 +40,3 @@ public class ParserRepeatingGroupPerfTest extends AbstractPerfTest {
         return m;
     }
 }
-
