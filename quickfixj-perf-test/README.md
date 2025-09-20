@@ -4,6 +4,35 @@ This is a [JMH](https://github.com/openjdk/jmh) benchmark module for QuickFIX/J 
 
 ## How to run
 
+### One‑command run (recommended)
+
+Run JMH with the perf Maven profile (skips tests/javadoc and runs JMH at verify phase):
+
+- Docker (Java 25):
+```
+docker run --rm -t -v "$PWD":/ws -w /ws openjdk:25 bash -lc './mvnw -P perf -pl quickfixj-perf-test -am verify'
+```
+
+- Local (if JDK 25 is installed):
+```
+JAVA_HOME=$(/usr/libexec/java_home -v 25) ./mvnw -P perf -pl quickfixj-perf-test -am verify
+```
+
+By default, results are saved to a timestamped JSON file at `quickfixj-perf-test/target/perf/jmh-results-<timestamp>.json` and also printed to stdout.
+
+To customize the output format/location, run the shaded JAR directly and pass JMH options, e.g.:
+
+```
+java -jar quickfixj-perf-test/target/quickfixj-perf-test.jar -wi 3 -i 5 -f 1 -tu ns -bm thrpt -rf csv -rff quickfixj-perf-test/target/perf/jmh-results.csv
+
+You can also override perf profile properties, e.g.:
+
+```
+./mvnw -P perf -pl quickfixj-perf-test -am verify \
+  -Dperf.wi=5 -Dperf.i=10 -Dperf.bm=thrpt -Dperf.rf=json -Dperf.tu=us
+```
+```
+
 ### Using your favorite IDE
 
 Performance regression classes can be individually run using your favorite IDE.
@@ -13,7 +42,7 @@ Performance regression classes can be individually run using your favorite IDE.
 Build executable jar using following maven command
 
 ```
-$ mvn clean package    
+$ mvn clean package
 ```
 
 Use following command to run complete set of performance regression test cases
