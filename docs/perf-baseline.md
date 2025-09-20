@@ -2,6 +2,8 @@
 
 This document captures reproducible performance baselines to guide and validate optimizations. Baselines are produced by the JMH perf profile and saved as timestamped JSON artifacts.
 
+Note: The perf module is excluded from default builds and CI. Enable it with the `perf` Maven profile when you want to run benchmarks.
+
 ## How to Produce a Baseline
 
 - Docker (Java 25):
@@ -230,4 +232,3 @@ org.quickfixj.TimestampConverterPerfTest.parse_seconds                {"ts":"200
 - quickfixj-perf-test/target/perf/jmh-results-20250920T140212Z.json
 
 ---
-
