@@ -42,6 +42,19 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>${jmh.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
@@ -67,5 +80,94 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>perf</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <perf.results.dir>${project.build.directory}/perf</perf.results.dir>
+                <!-- timestamp is set by build-helper in this profile -->
+                <perf.results.file>${perf.results.dir}/jmh-results-${perf.timestamp}.json</perf.results.file>
+                <perf.wi>3</perf.wi>
+                <perf.i>5</perf.i>
+                <perf.f>1</perf.f>
+                <perf.tu>ns</perf.tu>
+                <perf.bm>thrpt</perf.bm>
+                <perf.rf>json</perf.rf>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>perf-timestamp</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>timestamp-property</goal>
+                                </goals>
+                                <configuration>
+                                    <name>perf.timestamp</name>
+                                    <pattern>yyyyMMdd'T'HHmmss'Z'</pattern>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>mkdir-perf-dir</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${perf.results.dir}"/>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>run-jmh</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <arguments>
+                                        <argument>-jar</argument>
+                                        <argument>${project.build.directory}/${project.artifactId}.jar</argument>
+                                        <argument>-wi</argument><argument>${perf.wi}</argument>
+                                        <argument>-i</argument><argument>${perf.i}</argument>
+                                        <argument>-f</argument><argument>${perf.f}</argument>
+                                        <argument>-tu</argument><argument>${perf.tu}</argument>
+                                        <argument>-bm</argument><argument>${perf.bm}</argument>
+                                        <argument>-rf</argument><argument>${perf.rf}</argument>
+                                        <argument>-rff</argument><argument>${perf.results.file}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

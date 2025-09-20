@@ -55,7 +55,6 @@
 		<module>quickfixj-examples</module>
 		<module>quickfixj-all</module>
 		<module>quickfixj-distribution</module>
-		<module>quickfixj-perf-test</module>
 	</modules>
 
 	<properties>
@@ -568,7 +567,36 @@
 					<maven.compiler.release>25</maven.compiler.release>
 				</properties>
 			</profile>
-	</profiles>
+    <profile>
+      <id>perf</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <skipTests>true</skipTests>
+        <skipAT>true</skipAT>
+      </properties>
+      <modules>
+        <!-- Include perf tests only when this profile is explicitly enabled -->
+        <module>quickfixj-perf-test</module>
+      </modules>
+      <build>
+        <plugins>
+          <!-- Disable bundle plugin work for faster perf builds -->
+          <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase/>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>github</id>

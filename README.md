@@ -20,6 +20,30 @@ For more information see the project website at http://www.quickfixj.org.
 
 Check out the wiki: https://github.com/quickfix-j/quickfixj/wiki
 
+## modernization plan (Java 25)
+
+The roadmap to adopt modern Java 25 features (performance, concurrency, TLS hardening) is documented in `docs/java25-modernization-plan.md`.
+
+## performance benchmarks
+
+Use the perf Maven profile to build and run JMH quickly:
+
+- Docker (Java 25):
+```
+docker run --rm -t -v "$PWD":/ws -w /ws openjdk:25 bash -lc './mvnw -P perf -pl quickfixj-perf-test -am verify'
+```
+
+- Local macOS (if JDK 25 installed):
+```
+JAVA_HOME=$(/usr/libexec/java_home -v 25) ./mvnw -P perf -pl quickfixj-perf-test -am verify
+```
+
+Results are saved to `quickfixj-perf-test/target/perf/jmh-results-<timestamp>.json` and also printed to stdout. See `quickfixj-perf-test/README.md` for customization options.
+
+Baseline documentation and how-to: `docs/perf-baseline.md`.
+
+Benchmark catalog and KPIs: `docs/perf-benchmarks.md`.
+
 ## questions
 For asking questions please either use the mailing list https://lists.sourceforge.net/lists/listinfo/quickfixj-users or ask on Stack Overflow https://stackoverflow.com/questions/ask?tags=quickfixj .
 

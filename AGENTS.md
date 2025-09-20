@@ -8,6 +8,12 @@ Builds run in parallel by default (`-T 1C` in `.mvn/maven.config`). The module g
 
 Run `./mvnw clean package -Dmaven.javadoc.skip=true -PskipBundlePlugin,minimal-fix-latest` for the full build the CI workflows execute. Use `./mvnw clean package -DskipAT=true -PskipBundlePlugin,minimal-fix-latest` when iterating and you only need to skip the acceptance suite. Execute `./mvnw -pl quickfixj-core -am test` to focus on the core engine plus its dependencies, or append `-Dtest=SessionTest` to target a class. The examples bundle can be run after `./mvnw -pl quickfixj-examples -am package`.
 
+For performance baselines and modernization details, see `docs/java25-modernization-plan.md`. A perf profile is available to run JMH quickly:
+- Docker (Java 25): `docker run --rm -t -v "$PWD":/ws -w /ws openjdk:25 bash -lc './mvnw -P perf -pl quickfixj-perf-test -am verify'`
+- Results saved to `quickfixj-perf-test/target/perf/jmh-results-<timestamp>.json`.
+
+CI note: CI runs Linux‑only in a `openjdk:25` container until setup‑java exposes 25 for macOS/Windows.
+
 ## Coding Style & Naming Conventions
 Target Java 25 (compiler release 25). Follow the existing four-space indentation and K&R brace style shown in `quickfixj-core/src/main/java/quickfix/Session.java`. Class names are CamelCase, constants SCREAMING_SNAKE_CASE, and package names all lower-case. Inject loggers with `private static final Logger LOGGER = LoggerFactory.getLogger(...)`. Keep public APIs javadoc’d and prefer immutable collections unless performance demands otherwise.
 
