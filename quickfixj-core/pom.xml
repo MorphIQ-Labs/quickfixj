@@ -223,6 +223,18 @@
 					</instructions>
 				</configuration>
 			</plugin>
+			<!-- Test configuration (module-specific) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemPropertyVariables>
+						<!-- Enable legacy RSA key exchange in JSSE for TLS 1.2 tests using TLS_RSA_* suites (tests only) -->
+						<jdk.tls.client.enableRSAKeyExchange>true</jdk.tls.client.enableRSAKeyExchange>
+						<jdk.tls.server.enableRSAKeyExchange>true</jdk.tls.server.enableRSAKeyExchange>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	  <extensions>
