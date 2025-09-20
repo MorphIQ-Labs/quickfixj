@@ -37,7 +37,6 @@ public class DictionaryValidationPerfTest extends AbstractPerfTest {
 
     @Benchmark
     public void validate() throws Exception {
-        dd.validate(message, false);
+        dd.validate(message, false, validationSettings);
     }
 }
-

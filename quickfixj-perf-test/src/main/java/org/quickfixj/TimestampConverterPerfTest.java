@@ -27,22 +27,20 @@ public class TimestampConverterPerfTest extends AbstractPerfTest {
 
     @Setup
     public void setup() throws Exception {
-        // try parse with seconds-only precision; if it fails, parse with millis then nanos
-        try {
-            parsed = UtcTimestampConverter.convert(ts, false);
-        } catch (Exception e) {
-            parsed = UtcTimestampConverter.convert(ts, true);
-        }
+        // API changed: parsing is handled by convert(String) regardless of precision
+        parsed = UtcTimestampConverter.convert(ts);
     }
 
     @Benchmark
     public Date parse_seconds() throws Exception {
-        return UtcTimestampConverter.convert(ts, false);
+        // Parse timestamp string to Date (milliseconds precision)
+        return UtcTimestampConverter.convert(ts);
     }
 
     @Benchmark
     public Date parse_millis() throws Exception {
-        return UtcTimestampConverter.convert(ts, true);
+        // Same parsing path; retained for historical comparison naming
+        return UtcTimestampConverter.convert(ts);
     }
 
     @Benchmark
@@ -55,4 +53,3 @@ public class TimestampConverterPerfTest extends AbstractPerfTest {
         return UtcTimestampConverter.convert(parsed, true);
     }
 }
-

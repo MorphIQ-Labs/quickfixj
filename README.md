@@ -40,6 +40,10 @@ JAVA_HOME=$(/usr/libexec/java_home -v 25) ./mvnw -P perf -pl quickfixj-perf-test
 
 Results are saved to `quickfixj-perf-test/target/perf/jmh-results-<timestamp>.json` and also printed to stdout. See `quickfixj-perf-test/README.md` for customization options.
 
+Baseline documentation and how-to: `docs/perf-baseline.md`.
+
+Benchmark catalog and KPIs: `docs/perf-benchmarks.md`.
+
 ## questions
 For asking questions please either use the mailing list https://lists.sourceforge.net/lists/listinfo/quickfixj-users or ask on Stack Overflow https://stackoverflow.com/questions/ask?tags=quickfixj .
 
